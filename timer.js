@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
     presetButtons.forEach(button => {
         button.addEventListener('click', () => {
             const secondsToAdd = parseInt(button.dataset.seconds);
-            const currentValue = parseInt(timeInput.value) || 0;
-            timeInput.value = currentValue + secondsToAdd;
+            let currentValue = parseInt(timeInput.value) || 0; // Treat empty as 0
+            timeInput.value = currentValue + secondsToAdd; // Add to current value
         });
     });
 
