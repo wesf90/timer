@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div class="container">
+        <h1>Timer App</h1>
+        
+        <div class="timer-section">
+            <h2>Simple Timer</h2>
+            <input type="number" id="simpleTimeInput" placeholder="Seconds" min="1">
+            <button id="startSimpleBtn">Start</button>
+            <div id="simpleDisplay">Time: --</div>
+        </div>
+
+        <div class="timer-section">
+            <h2>Interval Timer</h2>
+            <input type="number" id="intervalTimeInput" placeholder="Seconds" min="1">
+            <button id="startIntervalBtn">Start</button>
+            <button id="stopIntervalBtn" disabled>Stop</button>
+            <div id="intervalDisplay">Interval: --</div>
+        </div>
+    </div>
+
+    <script src="timer.js"></script>
+    <script src="service-worker.js"></script>
+</body>
+</html>
