@@ -79,3 +79,9 @@ button:hover:not(:disabled) {
     font-family: monospace;
     color: #333;
 }
+
+#timerDisplay .interval-counter {
+    font-size: 0.7em;
+    color: #666;
+    margin-left: 10px;
+}
