@@ -10,15 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let intervalId = null;
     let isIntervalMode = false;
     let baseTime = 0;
+    let intervalCount = 0; // New interval counter
     const beep = new Audio('beep.mp3');
 
-    // Format time to MM:SS.ss
-    const formatTime = (milliseconds) => {
+    // Format time to MM:SS.ss with optional interval count
+    const formatTime = (milliseconds, showCounter = false) => {
         const totalSeconds = Math.floor(milliseconds / 1000);
         const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
         const seconds = (totalSeconds % 60).toString().padStart(2, '0');
         const hundredths = Math.floor((milliseconds % 1000) / 10).toString().padStart(2, '0');
-        return `${minutes}:${seconds}.${hundredths}`;
+        const baseTimeStr = `${minutes}:${seconds}.${hundredths}`;
+        return showCounter ? `${baseTimeStr} <span class="interval-counter">(${intervalCount})</span>` : baseTimeStr;
     };
 
     // Trigger beep and vibration
@@ -36,19 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         intervalId = setInterval(() => {
             if (timeLeft >= 0) {
-                timerDisplay.textContent = formatTime(timeLeft);
-                timeLeft -= 10; // Update every 10ms for smooth hundredths
+                timerDisplay.innerHTML = formatTime(timeLeft, isIntervalMode);
+                timeLeft -= 10;
             } else {
                 triggerFeedback();
                 if (isIntervalMode) {
-                    timeLeft = baseTime; // Reset for interval mode
+                    intervalCount++; // Increment counter
+                    timeLeft = baseTime;
                 } else {
                     clearInterval(intervalId);
                     intervalId = null;
                     stopBtn.disabled = true;
                 }
             }
-        }, 10); // 10ms interval for precision
+        }, 10);
     };
 
     // Preset buttons
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         baseTime = seconds * 1000;
         isIntervalMode = false;
+        intervalCount = 0; // Reset counter
         stopBtn.disabled = false;
         startCountdown(baseTime);
     });
@@ -79,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         baseTime = seconds * 1000;
         isIntervalMode = true;
+        intervalCount = 0; // Start at 0
         stopBtn.disabled = false;
         startCountdown(baseTime);
     });
@@ -88,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(intervalId);
         intervalId = null;
         isIntervalMode = false;
-        timerDisplay.textContent = '00:00.00';
+        intervalCount = 0; // Reset counter
+        timerDisplay.innerHTML = '00:00.00';
         stopBtn.disabled = true;
     });
 });
