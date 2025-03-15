@@ -85,3 +85,27 @@ button:hover:not(:disabled) {
     color: #666;
     margin-left: 10px;
 }
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.8em;
+    color: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-icon {
+    vertical-align: middle;
+}
