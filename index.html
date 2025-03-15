@@ -1,81 +1,34 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f0f0f0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div class="container">
+        <h1>Timer App</h1>
+        
+        <div class="timer-section">
+            <input type="number" id="timeInput" placeholder="Seconds" min="1">
+            <div class="preset-buttons">
+                <button class="preset-btn" data-seconds="15">15s</button>
+                <button class="preset-btn" data-seconds="30">30s</button>
+                <button class="preset-btn" data-seconds="60">60s</button>
+            </div>
+            <div class="control-buttons">
+                <button id="startTimerBtn">Start Timer</button>
+                <button id="startIntervalBtn">Start Interval</button>
+                <button id="stopBtn" disabled>Stop</button>
+            </div>
+            <div id="timerDisplay">00:00.00</div>
+        </div>
+    </div>
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-.timer-section {
-    background: white;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-input[type="number"] {
-    padding: 8px;
-    margin: 10px 0;
-    width: 100px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.preset-buttons {
-    margin: 10px 0;
-}
-
-.preset-btn {
-    padding: 6px 12px;
-    margin: 0 5px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.preset-btn:hover {
-    background-color: #218838;
-}
-
-.control-buttons {
-    margin: 10px 0;
-}
-
-button {
-    padding: 8px 16px;
-    margin: 5px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-button:hover:not(:disabled) {
-    background-color: #0056b3;
-}
-
-#timerDisplay {
-    margin-top: 15px;
-    font-size: 2em;
-    font-family: monospace;
-    color: #333;
-}
+    <script src="timer.js"></script>
+    <script src="service-worker.js"></script>
+</body>
+</html>
