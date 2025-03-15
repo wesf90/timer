@@ -11,7 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let simpleIntervalId = null;
     let intervalId = null;
-    const beep = new Audio('beep.mp3'); // You'll need to provide this file
+    const beep = new Audio('beep.mp3'); // Ensure this file exists
+
+    // Function to trigger beep and vibration
+    const triggerFeedback = () => {
+        beep.play();
+        if ('vibrate' in navigator) {
+            navigator.vibrate(200); // Vibrate for 200ms
+        }
+    };
 
     // Simple Timer
     startSimpleBtn.addEventListener('click', () => {
@@ -27,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 clearInterval(simpleIntervalId);
                 simpleDisplay.textContent = 'Time: 0s';
-                beep.play();
+                triggerFeedback(); // Beep and vibrate
             }
         }, 1000);
     });
@@ -52,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 intervalDisplay.textContent = `Interval: ${time}s`;
                 time--;
             } else {
-                beep.play();
+                triggerFeedback(); // Beep and vibrate
                 time = baseTime;
             }
         }, 1000);
