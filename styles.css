@@ -21,11 +21,7 @@ h1 {
     margin: 20px 0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-h2 {
-    margin-top: 0;
-    color: #666;
+    text-align: center;
 }
 
 input[type="number"] {
@@ -34,6 +30,28 @@ input[type="number"] {
     width: 100px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+.preset-buttons {
+    margin: 10px 0;
+}
+
+.preset-btn {
+    padding: 6px 12px;
+    margin: 0 5px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.preset-btn:hover {
+    background-color: #218838;
+}
+
+.control-buttons {
+    margin: 10px 0;
 }
 
 button {
@@ -55,8 +73,9 @@ button:hover:not(:disabled) {
     background-color: #0056b3;
 }
 
-div[id$="Display"] {
+#timerDisplay {
     margin-top: 15px;
-    font-size: 1.2em;
+    font-size: 2em;
+    font-family: monospace;
     color: #333;
 }
