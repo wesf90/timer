@@ -48,16 +48,18 @@ input[type="number"] {
     background: none;
     border: none;
     color: #666;
-    font-size: 1.2em;
+    font-size: 1.5em; /* Increased size for visibility */
     cursor: pointer;
     padding: 0;
     width: 20px;
     height: 20px;
     line-height: 20px;
+    text-align: center;
+    transition: color 0.2s;
 }
 
 .clear-btn:hover {
-    color: #333;
+    color: #333; /* Darken on hover for feedback */
 }
 
 .preset-buttons {
