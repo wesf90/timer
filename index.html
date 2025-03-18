@@ -13,7 +13,10 @@
         <h1>Timer App</h1>
         
         <div class="timer-section">
-            <input type="number" id="timeInput" placeholder="Seconds" min="1">
+            <div class="input-wrapper">
+                <input type="number" id="timeInput" placeholder="Seconds" min="1">
+                <button id="clearInput" class="clear-btn">×</button>
+            </div>
             <div class="preset-buttons">
                 <button class="preset-btn" data-seconds="5">+5s</button>
                 <button class="preset-btn" data-seconds="10">+10s</button>
