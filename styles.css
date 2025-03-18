@@ -24,13 +24,40 @@ h1 {
     text-align: center;
 }
 
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 10px 0;
+}
+
 input[type="number"] {
     padding: 10px;
-    margin: 10px 0;
+    padding-right: 30px; /* Space for clear button */
+    margin: 0;
     width: 120px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1.1em;
+}
+
+.clear-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+}
+
+.clear-btn:hover {
+    color: #333;
 }
 
 .preset-buttons {
