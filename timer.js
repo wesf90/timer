@@ -6,12 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const stopBtn = document.getElementById('stopBtn');
     const timerDisplay = document.getElementById('timerDisplay');
     const presetButtons = document.querySelectorAll('.preset-btn');
+    const helpToggle = document.getElementById('helpToggle');
+    const helpContent = document.getElementById('helpContent');
 
     let intervalId = null;
     let isIntervalMode = false;
     let baseTime = 0;
     let intervalCount = 0;
     const beep = new Audio('beep.mp3');
+
+    // Toggle help section
+    helpToggle.addEventListener('click', () => {
+        helpContent.classList.toggle('hidden');
+    });
 
     // Format time to MM:SS.ss with optional interval count
     const formatTime = (milliseconds) => {
@@ -61,8 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
     presetButtons.forEach(button => {
         button.addEventListener('click', () => {
             const secondsToAdd = parseInt(button.dataset.seconds);
-            let currentValue = parseInt(timeInput.value) || 0; // Treat empty as 0
-            timeInput.value = currentValue + secondsToAdd; // Add to current value
+            let currentValue = parseInt(timeInput.value) || 0;
+            timeInput.value = currentValue + secondsToAdd;
         });
     });
 
