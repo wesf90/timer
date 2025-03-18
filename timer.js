@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Elements
     const timeInput = document.getElementById('timeInput');
+    const clearInput = document.getElementById('clearInput');
     const startTimerBtn = document.getElementById('startTimerBtn');
     const startIntervalBtn = document.getElementById('startIntervalBtn');
     const stopBtn = document.getElementById('stopBtn');
@@ -9,11 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const helpToggle = document.getElementById('helpToggle');
     const helpContent = document.getElementById('helpContent');
 
-    let intervalId = null;
+    let worker = null;
     let isIntervalMode = false;
-    let baseTime = 0;
     let intervalCount = 0;
     const beep = new Audio('beep.mp3');
+
+    // Clear input
+    clearInput.addEventListener('click', () => {
+        timeInput.value = '';
+    });
 
     // Toggle help section
     helpToggle.addEventListener('click', () => {
@@ -33,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return display;
     };
 
-    // Trigger beep and vibration
+    // Trigger feedback
     const triggerFeedback = () => {
         beep.play();
         if ('vibrate' in navigator) {
@@ -41,30 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Update display during countdown
-    const startCountdown = (durationMs) => {
-        let timeLeft = durationMs;
-        clearInterval(intervalId);
-
-        intervalId = setInterval(() => {
-            if (timeLeft >= 0) {
-                timerDisplay.innerHTML = formatTime(timeLeft);
-                timeLeft -= 10;
-            } else {
-                triggerFeedback();
-                if (isIntervalMode) {
-                    intervalCount++;
-                    timeLeft = baseTime;
-                } else {
-                    clearInterval(intervalId);
-                    intervalId = null;
-                    stopBtn.disabled = true;
-                }
-            }
-        }, 10);
-    };
-
-    // Preset buttons (add time instead of setting)
+    // Preset buttons
     presetButtons.forEach(button => {
         button.addEventListener('click', () => {
             const secondsToAdd = parseInt(button.dataset.seconds);
@@ -73,39 +55,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Start Timer (one-shot)
-    startTimerBtn.addEventListener('click', () => {
-        if (intervalId) return;
-        const seconds = parseInt(timeInput.value);
-        if (isNaN(seconds) || seconds <= 0) return;
-
-        baseTime = seconds * 1000;
-        isIntervalMode = false;
+    // Start timer or interval
+    const startTimer = (seconds, intervalMode) => {
+        if (worker) stopTimer();
+        worker = new Worker('timer-worker.js');
+        isIntervalMode = intervalMode;
         intervalCount = 0;
+
+        worker.postMessage({ duration: seconds * 1000, intervalMode });
         stopBtn.disabled = false;
-        startCountdown(baseTime);
-    });
 
-    // Start Interval (repeating)
-    startIntervalBtn.addEventListener('click', () => {
-        if (intervalId) return;
-        const seconds = parseInt(timeInput.value);
-        if (isNaN(seconds) || seconds <= 0) return;
+        worker.onmessage = (e) => {
+            const { timeLeft, finished } = e.data;
+            timerDisplay.innerHTML = formatTime(timeLeft);
 
-        baseTime = seconds * 1000;
-        isIntervalMode = true;
-        intervalCount = 0;
-        stopBtn.disabled = false;
-        startCountdown(baseTime);
-    });
+            if (finished) {
+                triggerFeedback();
+                if (isIntervalMode) {
+                    intervalCount++;
+                } else {
+                    stopTimer();
+                }
+            }
+        };
+    };
 
-    // Stop
-    stopBtn.addEventListener('click', () => {
-        clearInterval(intervalId);
-        intervalId = null;
+    // Stop timer
+    const stopTimer = () => {
+        if (worker) {
+            worker.terminate();
+            worker = null;
+        }
         isIntervalMode = false;
         intervalCount = 0;
         timerDisplay.innerHTML = '00:00.00';
         stopBtn.disabled = true;
+    };
+
+    // Start Timer (one-shot)
+    startTimerBtn.addEventListener('click', () => {
+        const seconds = parseInt(timeInput.value);
+        if (isNaN(seconds) || seconds <= 0) return;
+        startTimer(seconds, false);
     });
+
+    // Start Interval (repeating)
+    startIntervalBtn.addEventListener('click', () => {
+        const seconds = parseInt(timeInput.value);
+        if (isNaN(seconds) || seconds <= 0) return;
+        startTimer(seconds, true);
+    });
+
+    // Stop
+    stopBtn.addEventListener('click', stopTimer);
 });
